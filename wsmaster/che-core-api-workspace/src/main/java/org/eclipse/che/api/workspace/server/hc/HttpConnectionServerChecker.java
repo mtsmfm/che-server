@@ -71,6 +71,10 @@ public class HttpConnectionServerChecker extends ServerChecker {
       }
       return isConnectionSuccessful(httpURLConnection);
     } catch (IOException e) {
+      StackTraceElement[] stes = Thread.currentThread().getStackTrace();
+      for (StackTraceElement element : stes) {
+        LOG.info("[mtsmfm] HttpConnectionServerChecker#isAvailable stack trace {}", element);
+      }
       LOG.debug(
           "Failed to establish http connection to check server '{}'. Cause: {}",
           serverRef,
