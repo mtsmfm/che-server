@@ -56,6 +56,8 @@ import org.eclipse.che.workspace.infrastructure.kubernetes.environment.Kubernete
 import org.eclipse.che.workspace.infrastructure.kubernetes.environment.KubernetesEnvironment.PodData;
 import org.eclipse.che.workspace.infrastructure.kubernetes.util.EnvVars;
 import org.eclipse.che.workspace.infrastructure.kubernetes.util.KubernetesSize;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Applies Che plugins tooling configuration to a kubernetes internal runtime object.
@@ -80,6 +82,8 @@ public class KubernetesPluginsToolingApplier implements ChePluginsApplier {
   private final ProjectsRootEnvVariableProvider projectsRootEnvVariableProvider;
   private final ChePluginsVolumeApplier chePluginsVolumeApplier;
   private final EnvVars envVars;
+
+  private static final Logger LOG = LoggerFactory.getLogger(KubernetesPluginsToolingApplier.class);
 
   @Inject
   public KubernetesPluginsToolingApplier(
@@ -242,6 +246,14 @@ public class KubernetesPluginsToolingApplier implements ChePluginsApplier {
       Component pluginRelatedComponent,
       RuntimeIdentity runtimeIdentity)
       throws InfrastructureException {
+
+    LOG.info("[mtsmfm] addSidecar chePlugin {}", chePlugin);
+    LOG.info("[mtsmfm] addSidecar chePlugin.getEndpoints {}", chePlugin.getEndpoints());
+
+    StackTraceElement[] stes = Thread.currentThread().getStackTrace();
+    for (StackTraceElement element : stes) {
+      LOG.info("[mtsmfm] addSidecar stack trace {}", element);
+    }
 
     K8sContainerResolver k8sContainerResolver =
         toK8sContainerResolver(container, chePlugin.getEndpoints());

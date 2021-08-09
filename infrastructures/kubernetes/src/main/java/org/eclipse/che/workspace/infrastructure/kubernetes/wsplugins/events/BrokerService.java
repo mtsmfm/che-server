@@ -93,6 +93,7 @@ public class BrokerService {
 
   private void handle(BrokerStatusChangedEvent event) {
     String encodedTooling = event.getTooling();
+    LOG.info("[mtsmfm] encodedTooling {}", encodedTooling);
     RuntimeIdentity runtimeId = event.getRuntimeId();
     if (event.getStatus() == null || runtimeId == null || runtimeId.getWorkspaceId() == null) {
       LOG.error("Broker event skipped due to illegal content: {}", event);
